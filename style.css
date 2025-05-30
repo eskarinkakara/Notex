@@ -1,0 +1,798 @@
+:root {
+    --color-main: #000000;
+    --color-secondary: #fefefe;
+    
+    --color-accent-terminal: #00ff00;
+    --color-accent-terminal-hover: #8cff8c;
+    --color-accent-gray: #3f3f3f;
+    --color-accent-darkgray: #161616;
+    --color-accent-delete: #db5050;
+    --color-accent-darkdelete: #5c0d0d;
+    --color-accent-save: #85e95e;
+    --color-accent-darksave: #2b5a19;
+}
+html {
+    font-size: 30px;
+    scrollbar-color: var(--color-secondary) var(--color-main);
+    scrollbar-width: thin;
+    user-select: none; /* Stop user from selecting texts */
+    -webkit-tap-highlight-color: transparent; /* Hides the annoying blue bar thing when clicking on mobile */
+    box-sizing: border-box;
+}
+body {
+    /* style */
+    background-color: var(--color-main);
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    
+    /* Font */
+    font-family: "Share Tech", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1rem;
+    
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    margin-top: 50px;
+    user-select: none;
+}
+body.modalOpen {
+    /* Stops the user from scrolling if a modal is open */
+    overflow: hidden;
+    position: relative;
+}
+a {
+    text-decoration: none;
+}
+h2 {
+    margin: 5px 0;
+}
+
+.lol {
+    opacity: 0;
+    transition: opacity 5s ease-in;
+}
+.lol.show {
+    opacity: 1;
+    transition: opacity 5s ease-in;
+}
+.lol.hide {
+    opacity: 0;
+    transition: opacity 0s ease-out;
+}
+
+
+
+
+header {
+    /* Dimensions */
+    height: 35px;
+    padding: 5px;
+    position: fixed;
+    width: 100%;
+    background-color: var(--color-main);
+    top: 0;
+    z-index: 999;
+
+    /* style */
+    border-bottom: 1px solid;
+}
+
+#popup {
+    /* location */
+    position: fixed;
+    z-index: 998;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: top 0.5s ease-out;
+
+    /* dimensions */
+    min-width: clamp(300px, 70vw, 700px);
+    width: fit-content;
+    height: 100px;
+    overflow: hidden;
+    line-height: 100px;
+    padding: 0 5px;
+
+    /* style */
+    background-color: var(--color-main);
+    color: var(--color-secondary);
+    border: 2px solid;
+    border-radius: 0 0 5px 5px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+#popup.show {
+    top: 44px;
+}
+
+#error {
+    /* location */
+    position: fixed;
+    z-index: 998;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: top 0.5s ease-out;
+
+    /* dimensions */
+    width: clamp(400px, 75vw, 500px);
+    height: 100px;
+    line-height: 100px;
+
+    /* style */
+    background-color: var(--color-accent-delete);
+    color: var(--color-secondary);
+    border: 2px solid;
+    border-radius: 0 0 5px 5px;
+    text-align: center;
+    font-size: 1rem;
+}
+#error.show {
+    top: 44px;
+}
+
+.btn {
+    /* Dimensions */
+    width: fit-content;
+    height: fit-content;
+
+    /* style */
+    border-radius: 2px;
+    border: 1px solid;
+    z-index: 998;
+    background-color: var(--color-main);
+
+    /* Location */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn.square {
+    width: 30px;
+    height: 30px;
+}
+.btn:hover {
+    cursor: pointer;
+}
+.btn:active {
+    background-color: var(--color-accent-gray);
+    color: var(--color-main);
+}
+.btn span {
+    /* Moves the content a bit up, to make it fit normally */
+    position: relative;
+    top: -2px;
+}
+.btnInactive { /* Inactive version */
+    /* Dimensions */
+    width: 30px;
+    height: 30px;
+
+    /* style */
+    border-radius: 2px;
+    z-index: 997;
+
+    /* Location */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+#plusBtn {
+    /* Location */
+    position: absolute;
+    right: 20px;
+    top: 7px;
+}
+.dropdownPlus {
+    /* Location */
+    position: absolute;
+    right: -75px;
+    top: 0;
+    height: 49px;
+    width: 49px;
+
+    /* style */
+    border-width: 2px;
+    border-radius: 5px;
+
+    span.plus {
+        font-size: 75px; /* Make font a bit bigger to make the "+" be more noticeable */
+    }
+}
+.dropdownPlus:active {
+    border-color: var(--color-secondary);
+}
+span.plus { /* The plus icon. Used more as a way to slightly move the icon up */
+    font-size: 50px; /* Make font a bit bigger to make the "+" be more noticeable */
+    top: -1px; /* Needs to be 1 pixel shorter, because it just looks better lol*/
+    pointer-events: none
+}
+
+
+
+#menuBtn {
+    /* Location */
+    position: absolute;
+    left: 10px;
+    top: 7px;
+}
+
+
+
+.search {
+    width: 50%;
+    height: 30px;
+    padding: 0;
+
+    /* Location */
+    position: absolute;
+    margin: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
+}
+input, textarea {
+    /* Dimensions */
+    margin: 0;
+    padding: 10px;
+    width: clamp(75%, 70vw, 90%);
+
+    /* style */
+    background-color: var(--color-main);
+    color: var(--color-secondary);
+    border: 2px solid;
+    border-radius: 5px;
+
+    /* Location */
+    position: relative;
+    margin-top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    
+    /* Font */
+    font-family: "Share Tech", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 26px;
+    text-align: center;
+}
+/* MAKE SURE TO ADD SEARCH INPUTS INTO DIVS, THEN RESIZE THE DIVS INSTEAD */
+/* Changes the search input to something nicer looking */
+input[type="search"] {
+    /* Dimensions */
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 10px;
+
+    /* style */
+    background-color: var(--color-main);
+    color: var(--color-secondary);
+    border: 1px solid;
+    border-radius: 5px;
+
+    /* Location */
+    position: absolute;
+    top: 0;
+    
+    /* Font */
+    font-family: "Share Tech", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 26px;
+    text-align: center;
+}
+input[type="color"] {
+    /* Dimensions */
+    padding: 0;
+    height: 50px;
+    width: 100%;
+
+    /* location */
+    display: inline;
+    left: 0;
+    transform: translateX(0);
+
+    /* style */
+    border: 1px solid;
+    border-radius: 5px;
+    cursor: pointer;
+}
+input[type="checkbox"] {
+    /* location */
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    left: 15px;
+    top: 2px;
+
+    /* stlye */
+    border: 1px solid;
+}
+.reminderCheck {
+    /* Dimensions */
+    margin: 0;
+    width: fit-content;
+
+    /* Location */
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+}
+.reminderSettings input {
+    width: 175px;
+}
+.colorContainer {
+    /* Not sure why it works, but it does. Just don't touch this anymore */
+    margin: 10px;
+    text-align: center;
+    display: inline-flex;
+    gap: 10px;
+    width: clamp(75%, 70vw, 90%);
+}
+.colorContainer .color {
+    width: 50%;
+    margin: auto;
+}
+.colorContainer h4 {
+    margin: 0;
+}
+input[type="submit"] {
+    cursor: pointer;
+}
+input[type="submit"]:active {
+    background-color: var(--color-accent-gray);
+    color: var(--color-main);
+}
+.btnRow {
+    /* dimensions */
+    margin: auto;
+    width: clamp(75%, 70vw, 90%);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.btnRow input {
+    /* Location */
+    left: unset;
+    transform: unset;
+    width: 100%;
+}
+textarea.text {
+    height: 300px;
+}
+.deleteBtn {
+    background-color: var(--color-accent-delete);
+    color: var(--color-main);
+    border-color: var(--color-main);
+}
+input[type="submit"].deleteBtn:active {
+    background-color: var(--color-accent-darkdelete);
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+.save {
+    background-color: var(--color-accent-save);
+    color: var(--color-main);
+    border-color: var(--color-main);
+}
+input[type="submit"].save:active {
+    background-color: var(--color-accent-darksave);
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+
+
+
+
+.dropdown {
+    /* Location */
+    position: relative;
+    z-index: 999;
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Dimensions */
+    height: 30px;
+    width: clamp(75%, 70vw, 90%);
+    margin-top: 15px;
+    margin-right: 50px;
+    padding: 10px;
+    
+    /* Font */
+    font-family: "Share Tech", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 26px;
+    text-align: center;
+}
+.selection {
+    position: relative;
+    width: calc(100% - 62px);
+}
+.selectedValue {
+    /* Dimensions */
+    padding: 10px;
+    margin: -10px;
+    height: 100%;
+    width: 100%;
+
+    /* Style */
+    border: 2px solid;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.selectedValue:active {
+    background-color: var(--color-accent-gray);
+    color: var(--color-main);
+}
+.dropdown.selecting {
+    z-index: 1001;
+}
+.dropdown.selecting .selectedValue {
+    background-color: var(--color-accent-darkgray);
+    color: var(--color-secondary);
+    cursor:default;
+}
+.dropdown .options {
+    opacity: 0;
+    width: 100%;
+    max-height: 0;
+    transition: 
+        max-height 0.3s ease,
+        top 0.3s ease,
+        opacity 0.3s ease;
+    position: absolute;
+    top: 100%;
+    left: 1px;
+    z-index: 998;
+    overflow-y: auto;
+    cursor: pointer;
+
+    /* Style */
+    border: 1px solid;
+    border-radius: 5px;
+}
+.dropdown .options .option {
+    border: 1px solid;
+    border-radius: 5px;
+    transition: height 0.3s ease;
+    height: 0;
+    visibility: hidden;
+    
+    background-color: var(--tag-bg);
+    color: var(--tag-color);
+}
+.dropdown .options .option.selected {
+    filter: brightness(0.4);
+    color: var(--color-secondary);
+}
+.dropdown .options .option:hover {
+    filter: brightness(1.6);
+}
+.dropdown .options.show {
+    /* Little animation to make the dropdown a bit smoother */
+    max-height: 250px;
+    opacity: 1;
+    .option {
+        height: 40px;
+        visibility: visible;
+    }
+}
+.dropdownBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8); 
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+.dropdownBackground.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+
+.tag .tagHeader {
+    /* Dimensions */
+    width: fit-content;
+    height: fit-content;
+    padding: 0px 5px;
+
+    margin: auto;
+    margin-top: 60px;
+    text-align: center;
+}
+.tagList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.tagList h2 {
+    margin: 0;
+    padding: 0 10px;
+}
+
+
+
+.noteContainer {
+    overflow-x: auto;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    padding-bottom: 15px;
+    margin-top: 15px;
+    border-bottom: 1px solid;
+}
+.note {
+    position: relative;
+    border: 1px solid;
+    border-radius: 2px;
+    overflow: auto;
+    padding: 5px;
+    cursor: pointer;
+}
+.note:active {
+    filter: brightness(0.5);
+}
+.note1 {
+    min-width: clamp(175px, 16vw, 500px);
+
+    font-size: clamp(0.6rem, 1.5vw, 2rem);
+}
+.note1 .noteText {
+    height: clamp(150px, 16vw, 500px);
+}
+.note1 .noteHeader {
+    font-size: clamp(0.7rem, 2vw, 3rem);
+    width: 100%; 
+}
+.note2 {
+    min-width: clamp(250px, 25vw, 700px);
+
+    font-size: clamp(0.8rem, 2vw, 2rem);
+}
+.note2 .noteText {
+    height: clamp(225px, 25vw, 600px);
+}
+.note2 .noteHeader {
+    font-size: clamp(.8rem, 4vw, 2rem);
+    width: 100%; 
+    overflow: auto;
+}
+.note3 {
+    min-width: clamp(350px, 30vw, 1500px);
+
+    font-size: clamp(0.6rem, 1.5vw, 2rem);
+}
+.note3 .noteText {
+    height: clamp(150px, 16vw, 500px);
+}
+.note3 .noteHeader {
+    font-size: clamp(0.7rem, 2vw, 3rem);
+    width: 80%; 
+}
+.note3 .btn, .btnInactive {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    scale: 1.5;
+}
+
+
+.modal {
+    /* style */
+    background-color: var(--color-main);
+    border-radius: 2px;
+    overflow: hidden;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+
+    /* position */
+    position: absolute;
+    z-index: 999;
+
+    /* Dimensions */
+    width: clamp(350px, 40vw, 550px);
+    height: 90%;
+    transition: 0.3s;
+}
+.modal .terminalBtn {
+    color: var(--color-accent-terminal);
+    width: fit-content;
+    cursor: pointer;
+}
+.modal .terminalBtn:hover {
+    color: var(--color-accent-terminal-hover);
+}
+.modalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 999;
+    display: flex;
+    align-items: center;
+
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+.modalBackground.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modalReveal {
+    /* Location */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    
+    /* Dimensions */
+    width: 100%;
+    height: 100%;
+
+    /* Style */
+    background-color: var(--color-main);
+    pointer-events: none;
+}
+.modalContent {
+    /* Dimensions */
+    width: 100%;
+    height: 100%;
+
+    /* style */
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.modal.show.terminal .modalReveal{
+    animation: slideReveal 2s ease forwards;
+}
+@keyframes slideReveal {
+    from { transform: translateY(0%); }
+    to   { transform: translateY(100%); }
+}
+
+
+
+.left {
+    /* position */
+    top: 50px;
+    left: -81%;
+    
+    /* Borders */
+    border-top: 1px solid var(--color-secondary);
+    border-right: 1px solid var(--color-secondary);
+    border-bottom: 1px solid var(--color-secondary);
+}
+.left.show{
+    left: 0;
+}
+
+
+.right {
+    /* position */
+    top: 50px;
+    right: -81%;
+    
+    /* Borders */
+    border-top: 1px solid var(--color-secondary);
+    border-left: 1px solid var(--color-secondary);
+    border-bottom: 1px solid var(--color-secondary);
+}
+.right.show{
+    right: 0;
+}
+
+
+.top {
+    /* Dimensions */
+    width: clamp(300px, 60vw, 700px);
+        height: 350px;
+    /* position */
+    left: 50%;
+    transform: translateX(-50%);
+    top: -81%;
+    
+    /* Borders */
+    border-left: 1px solid var(--color-secondary);
+    border-right: 1px solid var(--color-secondary);
+    border-bottom: 1px solid var(--color-secondary);
+}
+.top.show{
+    top: 0;
+}
+@media (max-width: 601px) {
+    .top {
+        height: fit-content;
+        padding-bottom: 25px;
+    }
+    .top h1 {
+        font-size: 1rem;
+    }
+    .top h3 {
+        font-size: 0.75rem;
+    }
+}
+
+
+.bottom {
+    /* Dimensions */
+    width: clamp(350px, 80vw, 1300px);
+
+    /* position */
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -81%;
+    
+    /* Borders */
+    border-top: 1px solid var(--color-secondary);
+    border-right: 1px solid var(--color-secondary);
+    border-left: 1px solid var(--color-secondary);
+}
+.bottom.show{
+    bottom: 0;
+}
+
+.center {
+    /* Dimensions */
+    width: clamp(350px, 80vw, 1300px);
+
+    /* position */
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* style */
+    border: 1px solid var(--color-secondary);
+    opacity: 0;
+    visibility: hidden;
+    scale: 0;
+    transform-origin: left;
+}
+.center.show{
+    opacity: 1;
+    visibility: visible;
+    scale: 1;
+}
+.center.small {
+    /* Dimensions */
+    width: clamp(350px, 30vw, 600px);
+    height: 350px;
+
+    /* Location */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform-origin: top left;
+}

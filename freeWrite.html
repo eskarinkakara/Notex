@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Notex - Note Manager</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="Notex_icon.png" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+
+    <header>
+        <div class="btn square openModal" modalId="menu" id="menuBtn">   <span>&#9776</span>  </div>
+        <div class="btnRow" style="position: relative;top: -15px;">
+            <input type="submit" id="saveFreeWrite" style="padding: 0 5px; height: fit-content;" value="Save">
+            <input type="submit" id="loadFreeWrite" style="padding: 0 5px; height: fit-content;" value="Load">
+        </div>
+    </header>
+
+    <textarea name="text" style="width: calc(100vw - 25px); height: calc(100dvh - 75px); text-align: left;" id="freeWrite" placeholder="Text..."></textarea>
+
+    <!-- menu Modal -->
+    <div class="modalBackground" modalId="menu">
+        <div class="modal left terminal" id="menu">
+            <div class="modalContent">
+                <h1 class="terminalBtn closeModal" modalId="menu">MENU</h1>
+                <h3 class="terminalBtn">Navigation</h3>
+                <h2 class="terminalBtn" onclick="window.location.href='index.html'">- Home()</h2>
+                <h2 class="terminalBtn" onclick="window.location.href='freeWrite.html'">- Free_write()</a></h2>
+                <h2 class="terminalBtn" onclick="window.location.href='allTags.html'">- All_tags()</h2>
+                <br>
+                <br>
+                <h3 class="terminalBtn">FreeWrite</h3>
+                <h2 id="saveBackup" class="terminalBtn closeModal" modalId="menu">- Save backup()</h2>
+                <h2 id="loadBackup" class="terminalBtn closeModal" modalId="menu">- Load backup()</h2>
+            </div>
+            <div class="modalReveal"></div> <!--Terminal showing effect. Add "terminal" to classlist for it to work-->
+        </div>
+    </div>
+
+
+    <div id="popup"></div>
+    <div id="error"></div>
+    
+<script src="modal.js"></script>
+<script src="freeWrite.js"></script>
+    
+</body>
+</html>

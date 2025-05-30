@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Notex - Note Manager</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="Notex_icon.png" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
+    <style>
+        .tagList {
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <header>
+        <div class="btn square openModal" modalId="menu" id="menuBtn">   <span>&#9776</span>  </div>
+        <div style="text-align: center;">All tags</div>
+        <div class="btn square openModal" modalId="createTag" id="plusBtn">   <span class="plus">&#43</span>    </div>
+    </header>
+
+
+<!-- notes -->
+    <div id="tagContainer" class="tagList">
+    </div>
+    <div id="tagModals">
+    </div>
+    <div id="deleteModals">
+    </div>
+
+    <!-- Modals -->
+    <!-- menu Modal -->
+    <div class="modalBackground" modalId="menu">
+        <div class="modal left terminal" id="menu">
+            <div class="modalContent">
+                <h1 class="terminalBtn closeModal" modalId="menu">MENU</h1>
+                <h2 class="terminalBtn" onclick="window.location.href='index.html'">- Home()</h2>
+                <h2 class="terminalBtn" onclick="window.location.href='freeWrite.html'">- Free_write()</h2>
+                <h2 class="terminalBtn" onclick="window.location.href='allTags.html'">- All_tags()</h2>
+            </div>
+            <div class="modalReveal"></div> <!--Terminal showing effect. Add "terminal" to classlist for it to work-->
+        </div>
+    </div>
+
+    
+    <!-- new tag Modal -->
+    <div class="modalBackground" modalId="createTag">
+        <div class="modal center small" id="createTag">
+            <div class="modalContent">
+                <h2>Create a new tag</h2>
+                <input type="text" class="header" placeholder="Tag name..." id="headerTag">
+
+                <div class="colorContainer">
+                    <div class="color">
+                        <h4>Background</h4>
+                        <input type="color" name="backgroundColor" value="#000000" id="backgroundColorTag">
+                    </div>
+
+                    <div class="color">
+                        <h4>Text</h4>
+                        <input type="color" name="textColor" value="#fefefe" id="textColorTag">
+                    </div>
+                </div>
+                <input type="submit" value="Create tag" class="closeModal" modalId="createTag" id="newTag">
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="popup"></div>
+    <div id="error"></div>
+
+<script src="modal.js"></script>
+<script src="inputElements.js"></script>
+<script src="allTags.js"></script>
+</body>
+</html>
