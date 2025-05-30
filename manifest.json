@@ -1,7 +1,7 @@
 {
   "name": "Notex",
   "short_name": "Notex",
-  "start_url": "/index.html",
+  "start_url": "/Notex/index.html",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#ffffff",

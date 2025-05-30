@@ -1,19 +1,19 @@
 const cacheName = "notex-cache-v1";
 const filesToCache = [
-  "/",
-  "/index.html",
-  "/allTags.html",
-  "/freeWrite.html",
-  "/style.css",
-  "/allTags.js",
-  "/freeWrite.js",
-  "/inputElements.js",
-  "/modal.js",
-  "/notes.js",
-  "/manifest.json",
-  "/Nortex_icon.png",
-  "/Nortex_icon-192.png",
-  "/Nortex_icon-512.png"
+  "/Notex/",
+  "/Notex/index.html",
+  "/Notex/allTags.html",
+  "/Notex/freeWrite.html",
+  "/Notex/style.css",
+  "/Notex/allTags.js",
+  "/Notex/freeWrite.js",
+  "/Notex/inputElements.js",
+  "/Notex/modal.js",
+  "/Notex/notes.js",
+  "/Notex/manifest.json",
+  "/Notex/Nortex_icon.png",
+  "/Notex/Nortex_icon-192.png",
+  "/Notex/Nortex_icon-512.png"
 ];
 
 self.addEventListener("install", event => {
