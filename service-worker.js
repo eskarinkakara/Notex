@@ -11,9 +11,9 @@ const filesToCache = [
   "/Notex/modal.js",
   "/Notex/notes.js",
   "/Notex/manifest.json",
-  "/Notex/Nortex_icon.png",
-  "/Notex/Nortex_icon-192.png",
-  "/Notex/Nortex_icon-512.png"
+  "/Notex/Notex_icon.png",
+  "/Notex/Notex_icon-192.png",
+  "/Notex/Notex_icon-512.png"
 ];
 
 self.addEventListener("install", event => {
