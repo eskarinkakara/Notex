@@ -315,6 +315,20 @@ function tagOptions() {
     };
 }
 
+function showReminderNotification(note) {
+    if (Notification.permission === "granted") {
+        new Notification(note.header, {
+        body: note.text,
+        icon: "Notex_icon.png"
+        });
+
+        const updateTransaction = db.transaction("notes", "readwrite");
+        const updateStore = updateTransaction.objectStore("notes");
+        note.reminder = false;
+        updateStore.put(note);
+    }
+}
+
 function loadNotesAndTags() {
     const transaction = db.transaction("tags", "readonly");
     const store = transaction.objectStore("tags");
@@ -441,6 +455,44 @@ function loadNotesByTags(tags, tagObjects) {
 
                 // creates note
                 notes.forEach(note => {
+
+
+                    //Notifications
+                    if (Notification.permission !== "granted") {
+                        Notification.requestPermission().then(permission => {
+                            if (permission !== "granted") {
+                            console.warn("Notifications not granted.");
+                            }
+                        });
+                    }
+
+                    const now = new Date();
+                    const reminderDateTime = new Date(`${note.reminderDate}T${note.reminderTime}`);
+
+                    if (now >= reminderDateTime && note.reminder) {
+                        showReminderNotification(note);
+                    }
+                    
+                    setInterval(() => {
+                        const transaction = db.transaction("notes", "readonly");
+                        const store = transaction.objectStore("notes");
+                        const request = store.openCursor();
+
+
+                        request.onsuccess = event => {
+                            const cursor = event.target.result;
+                            if (cursor) {
+                            const note = cursor.value;
+                            if (note.reminderDate && note.reminderTime && note.reminder) {
+                                if (now >= reminderDateTime && note.reminder) {
+                                showReminderNotification(note);
+                                }
+                            }
+                            cursor.continue();
+                            }
+                        };
+                    }, 60000);
+                    
                     const tagColor = tagObjects[note.tag];
 
                     const selectedValueStyle = `
