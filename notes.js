@@ -36,6 +36,7 @@ request.onsuccess = function (event) {
 
     loadNotesAndTags();
     tagOptions();
+    checkRemindersNow();
 };
 
 request.onerror = function () {
@@ -315,6 +316,9 @@ function tagOptions() {
     };
 }
 
+
+//Notifications
+
 function showReminderNotification(note) {
     if (Notification.permission === "granted") {
         new Notification(note.header, {
@@ -328,6 +332,63 @@ function showReminderNotification(note) {
         updateStore.put(note);
     }
 }
+
+if (Notification.permission !== "granted") {
+    Notification.requestPermission().then(permission => {
+        if (permission !== "granted") {
+        console.warn("Notifications not granted.");
+        }
+    });
+}
+
+function checkRemindersNow() {
+    const transaction = db.transaction("notes", "readonly");
+    const store = transaction.objectStore("notes");
+    const request = store.openCursor();
+
+    const now = new Date();
+
+    request.onsuccess = event => {
+        const cursor = event.target.result;
+        if (cursor) {
+        const note = cursor.value;
+        const reminderDateTime = new Date(`${note.reminderDate}T${note.reminderTime}`);
+        if (note.reminder && note.reminderDate && note.reminderTime) {
+            if (now >= reminderDateTime && note.reminder) {
+                showReminderNotification(note);
+                loadNotesAndTags();
+            }
+        }
+        cursor.continue();
+        }
+    };
+}
+
+setInterval(() => {
+    const transaction = db.transaction("notes", "readonly");
+    const store = transaction.objectStore("notes");
+    const request = store.openCursor();
+
+    const now = new Date();
+
+    request.onsuccess = event => {
+        const cursor = event.target.result;
+        if (cursor) {
+        const note = cursor.value;
+        const reminderDateTime = new Date(`${note.reminderDate}T${note.reminderTime}`);
+        if (note.reminder && note.reminderDate && note.reminderTime) {
+            if (now >= reminderDateTime && note.reminder) {
+                showReminderNotification(note);
+                document.getElementById(`reminder${note.id}`).checked = false;
+            }
+        }
+        cursor.continue();
+        }
+    };
+}, 60000);
+
+
+
 
 function loadNotesAndTags() {
     const transaction = db.transaction("tags", "readonly");
@@ -454,45 +515,7 @@ function loadNotesByTags(tags, tagObjects) {
 
 
                 // creates note
-                notes.forEach(note => {
-
-
-                    //Notifications
-                    if (Notification.permission !== "granted") {
-                        Notification.requestPermission().then(permission => {
-                            if (permission !== "granted") {
-                            console.warn("Notifications not granted.");
-                            }
-                        });
-                    }
-
-                    const now = new Date();
-                    const reminderDateTime = new Date(`${note.reminderDate}T${note.reminderTime}`);
-
-                    if (now >= reminderDateTime && note.reminder) {
-                        showReminderNotification(note);
-                    }
-                    
-                    setInterval(() => {
-                        const transaction = db.transaction("notes", "readonly");
-                        const store = transaction.objectStore("notes");
-                        const request = store.openCursor();
-
-
-                        request.onsuccess = event => {
-                            const cursor = event.target.result;
-                            if (cursor) {
-                            const note = cursor.value;
-                            if (note.reminderDate && note.reminderTime && note.reminder) {
-                                if (now >= reminderDateTime && note.reminder) {
-                                showReminderNotification(note);
-                                }
-                            }
-                            cursor.continue();
-                            }
-                        };
-                    }, 60000);
-                    
+                notes.forEach(note => {                    
                     const tagColor = tagObjects[note.tag];
 
                     const selectedValueStyle = `
